@@ -67,10 +67,12 @@ function renderCb (err, data) {
     infoListItem3.setAttribute("class","info-list-item");
     const infoListItem4 = createAndAppend("li",infoList);
     infoListItem4.setAttribute("class","info-list-item");
-    infoListItem1.innerHTML = "Repository : " + data.name  ;
+    infoListItem1.innerHTML = "Repository : "+"<a href = "+data.html_url+ ' target="_blank"'+ ">"+data.name+"</a>";
     infoListItem2.innerHTML = "Description : " + data.description;
     infoListItem3.innerHTML = "Forks : " + data.forks;
     infoListItem4.innerHTML = "Updated : " + data.updated_at;
+    console.log(data);
+    
 }
 
 function renderCon (err, data) {
