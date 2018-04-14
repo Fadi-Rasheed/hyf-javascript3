@@ -1,0 +1,120 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: lightgrey;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+ul {
+    list-style: none;
+}
+
+header {
+    margin: 0px;
+    padding: 0px;
+    padding-left: 5%;
+    background-color: rgb(1, 6, 71);
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+#root {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+select {
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    margin: 5%;
+}
+
+#info {
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 20px;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 5px 5px;
+}
+
+#contributors {
+    font-size: 1.5em;
+    padding-right: 0px;
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+    text-align: center;
+    display: block;
+}
+
+.contributor-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 5px 5px;
+    border-radius: 15px;
+}
+
+.contributor-contributions {
+    background-color: rgb(1, 6, 71);
+    border-radius: 15px;
+    width: 10%;
+    color: white;
+}
+
+#contributor-title {
+    background-color: white;
+    box-shadow: 5px 5px;
+    border-radius: 15px;
+}
+
+img {
+    width: 150px;
+}
+
+@media all and (min-width: 720px) {
+    h1 {
+        width: 50%;
+    }
+    select {
+        width: 30%;
+        margin-left: 5%;
+        margin-bottom: 5%;
+    }
+    #info {
+        width: 40%;
+        margin-right: 5%;
+        margin-left: 1%;
+        transition: 0.5s;
+    }
+    #contributors {
+        margin-right: 4%;
+        margin-left: 0%;
+        width: 50%;
+    }
+    .contributor-list {
+        transition: 0.5s;
+    }
+    #info:hover {
+        transform: scale(1.1);
+        z-index: 1;
+    }
+    .contributor-list:hover {
+        transform: scale(1.1);
+        z-index: 1;
+    }
+}
