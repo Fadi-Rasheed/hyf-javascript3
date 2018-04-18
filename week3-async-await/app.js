@@ -20,74 +20,57 @@ function fetchJSON(url) {
     });
 }
 
-function createAndAppend(tagName, parent) {
-    const element = document.createElement(tagName);
-    parent.appendChild(element);
-    return element;
+function createAndAppend(name, parent, options = {}) {
+    const elem = document.createElement(name);
+    parent.appendChild(elem);
+    Object.keys(options).forEach(key => {
+        const value = options[key];
+        if (key === 'html') {
+            elem.innerHTML = value;
+        } else {
+            elem.setAttribute(key, value);
+        }
+    });
+    return elem;
 }
 
 function renderRepos(repos) {
     const root = document.getElementById("root");
     const header = createAndAppend("header", root);
-    const head = createAndAppend("h1", header);
-    head.innerHTML = "HYF Repositories";
+    const head = createAndAppend("h1", header, { html: "HYF Repositories" });
     const select = createAndAppend("select", header);
-    const info = createAndAppend("div", root);
-    info.setAttribute("id", "info");
-    const contributors = createAndAppend("div", root);
-    contributors.setAttribute("id", "contributors");
+    const info = createAndAppend("div", root, { id: "info" });
+    const contributors = createAndAppend("div", root, { id: "contributors" });
     select.addEventListener("change", (event) => {
         rendersAll(event.target.value)
     });
 
     repos.forEach(repo => {
-        const listItem = createAndAppend("option", select);
-        listItem.innerHTML = repo.name;
-        listItem.setAttribute("value", repo.name);
+        const listItem = createAndAppend("option", select, { html: repo.name, value: repo.name });
     });
     rendersAll(repos[0].name);
 }
 
-function renderCb(data) {
+function renderRepository(data) {
     document.getElementById("info").innerHTML = "";
-    const infoList = createAndAppend("ul", info);
-    infoList.setAttribute("class", "info-list");
-    const infoListItem1 = createAndAppend("li", infoList);
-    infoListItem1.setAttribute("class", "info-list-item");
-    const infoListItem2 = createAndAppend("li", infoList);
-    infoListItem2.setAttribute("class", "info-list-item");
-    const infoListItem3 = createAndAppend("li", infoList);
-    infoListItem3.setAttribute("class", "info-list-item");
-    const infoListItem4 = createAndAppend("li", infoList);
-    infoListItem4.setAttribute("class", "info-list-item");
-    infoListItem1.innerHTML = "Repository : " + "<a href = " + data.html_url + ' target="_blank"' + ">" + data.name + "</a>";
-    infoListItem2.innerHTML = "Description : " + data.description;
-    infoListItem3.innerHTML = "Forks : " + data.forks;
-    infoListItem4.innerHTML = "Updated : " + data.updated_at;
+    const infoList = createAndAppend("ul", info, { class: "info-list" });
+    const infoListItem1 = createAndAppend("li", infoList, { html: "Repository : " + "<a href = " + data.html_url + ' target="_blank"' + ">" + data.name + "</a>", class: "info-list-item" });
+    const infoListItem2 = createAndAppend("li", infoList, { html: "Description : " + data.description, class: "info-list-item" });
+    const infoListItem3 = createAndAppend("li", infoList, { html: "Forks : " + data.forks, class: "info-list-item" });
+    const infoListItem4 = createAndAppend("li", infoList, { html: "Updated : " + data.updated_at, class: "info-list-item" });
 }
 
 function renderContributors(data) {
     document.getElementById("contributors").innerHTML = "";
-    const contributorTitle = createAndAppend("h2", contributors);
-    contributorTitle.setAttribute("id", "contributor-title");
-    contributorTitle.innerHTML = "Contributions";
+    const contributorTitle = createAndAppend("h2", contributors, { html: "Contributions", id: "contributor-title" });
 
     data.forEach(con => {
-        const contributorList = createAndAppend("ul", contributors);
-        contributorList.setAttribute("class", "contributor-list");
-        const contributorListUrl = createAndAppend("a", contributorList);
-        contributorListUrl.setAttribute("href", con.html_url);
-        contributorListUrl.setAttribute("target", "_blank");
+        const contributorList = createAndAppend("ul", contributors, { class: "contributor-list" });
+        const contributorListUrl = createAndAppend("a", contributorList, { href: con.html_url, target: "_blank" });
         const contributorItemImg = createAndAppend("li", contributorListUrl);
-        const contributorImg = createAndAppend("img", contributorItemImg);
-        contributorImg.setAttribute("src", con.avatar_url);
-        contributorImg.setAttribute("class", "contributor-img");
-        const contributorName = createAndAppend("li", contributorList);
-        contributorName.setAttribute("class", "contributor-name");
-        const contributorContributions = createAndAppend("li", contributorList);
-        contributorContributions.setAttribute("class", "contributor-contributions");
-        contributorName.innerHTML = con.login;
-        contributorContributions.innerHTML = con.contributions;
+        const contributorImg = createAndAppend("img", contributorItemImg, { src: con.avatar_url, class: "contributor-img" });
+        const contributorName = createAndAppend("li", contributorList, { html: con.login, class: "contributor-name" });
+        const contributorContributions = createAndAppend("li", contributorList, { html: con.contributions, class: "contributor-contributions" });
     });
 }
 
@@ -107,7 +90,7 @@ async function rendersAll(selectedRepo) {
     try {
         const dataRepo = await fetchJSON(ur);
         const dataCon = await fetchJSON(dataRepo.contributors_url);
-        renderCb(dataRepo);
+        renderRepository(dataRepo);
         renderContributors(dataCon);
     }
     catch (error) {
